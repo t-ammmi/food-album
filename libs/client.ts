@@ -1,17 +1,12 @@
 import { createClient } from 'microcms-js-sdk';
-
-export type Blog = {
-    id: string;
-    title: string;
-    body: string;   
-}
+import type { Food } from '@/src/types/food';
 
 if (!process.env.SERVICE_DOMAIN) {
-    throw new Error("MICROCMS_SERVICE_DOMAIN is required");
+    throw new Error("SERVICE_DOMAIN is required");
 }
 
 if (!process.env.API_KEY) {
-    throw new Error("MICROCMS_SERVICE_DOMAIN is required");
+    throw new Error("API_KEY is required");
 }
 
 export const client = createClient({
@@ -21,7 +16,7 @@ export const client = createClient({
 
 // ご飯一覧を取得
 export const getFoods = async () => {
-    const foods = await client.getList<Blog>({
+    const foods = await client.getList<Food>({
     endpoint: "food"
     });
     return foods;
@@ -29,7 +24,7 @@ export const getFoods = async () => {
 
 // ご飯の詳細を取得
 export const getDetail = async (contentId: string) => {
-    const food = await client.getListDetail<Blog>({
+    const food = await client.getListDetail<Food>({
         endpoint: "food",
         contentId,
     });

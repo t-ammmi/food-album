@@ -21,13 +21,16 @@ export default async function StaticDetailPage({
   const food = await getDetail(foodId);
 
   return(
-    <>
-        <p>{food.title}</p>
-        <div
-          dangerouslySetInnerHTML={{
-            __html: `${food.body}`,
-          }}
-        />
-    </>
+    <main>
+      <p>{food.type}</p>
+      <h1>{food.title}</h1>
+      <p>{food.date}</p>
+      <p>{food.rating}星</p>
+      {food.location && <p>{food.location}</p>}
+      {food.review && <p>{food.review}</p>}
+      {food.recipe && (
+        <div dangerouslySetInnerHTML={{ __html: food.recipe }} />
+      )}
+    </main>
   )
 }
