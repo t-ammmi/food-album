@@ -103,6 +103,10 @@
     }
 
     .filterNav {
-        padding-top: $spacing-sm;
+        padding-top: 12px;
+    }
+
+    .filterButton {
+        font-size: $font-size-base;
     }
 }
