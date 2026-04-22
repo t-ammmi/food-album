@@ -1,0 +1,27 @@
+@use "../../styles/variables.scss" as *;
+
+.stars {
+    display: flex;
+    gap: 2px;
+    align-items: center;
+
+    svg {
+        width: 12px;
+        height: 12px;
+
+        @media (min-width: $breakpoint-desktop) {
+            width: 14px;
+            height: 14px;
+        }
+    }
+}
+
+.filled {
+    color: $color-star;
+    fill: $color-star;
+}
+
+.empty {
+    color: $color-border;
+    fill: $color-border;
+}

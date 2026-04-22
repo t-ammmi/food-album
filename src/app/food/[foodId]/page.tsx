@@ -1,5 +1,5 @@
 import { getDetail,getFoods } from "@/libs/client";
-import Link from "next/link"
+import RatingStars from "@/src/components/RatingStars/RatingStars";
 
 export async function generateStaticParams(){
   const { contents } = await getFoods();
@@ -25,7 +25,7 @@ export default async function StaticDetailPage({
       <p>{food.type}</p>
       <h1>{food.title}</h1>
       <p>{food.date}</p>
-      <p>{food.rating}星</p>
+      <RatingStars rating={food.rating} />
       {food.location && <p>{food.location}</p>}
       {food.review && <p>{food.review}</p>}
       {food.recipe && (

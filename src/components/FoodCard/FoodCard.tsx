@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { Food } from "@/src/types/food";
 import styles from "./FoodCard.module.scss";
 import { formatDate } from "@/src/libs/formatDate";
+import RatingStars from "@/src/components/RatingStars/RatingStars";
 
 type Props = {
     food: Food;
@@ -23,7 +24,7 @@ export default function FoodCard({ food }: Props) {
             </div>
             <div className={styles.info}>
                 <span className={styles.date}>{formatDate(food.date)}</span>
-                <span className={styles.rating}>{food.rating}★</span>
+                <RatingStars rating={food.rating} />
                 <h2 className={styles.title}>{food.title}</h2>
             </div>
         </Link>
