@@ -8,6 +8,12 @@ export type MicroCMSImage = {
 // 種別
 export type FoodType = "外食" | "自炊";
 
+// タグ
+export type Tag = {
+    fieldId: string;
+    tag: string;
+}
+
 // microCMSのfood APIの型
 export type Food = {
   id: string;
@@ -23,5 +29,5 @@ export type Food = {
   rating: number;
   review?: string;
   recipe?: string;
-  tags?: string[];
+  tags?: Tag[];
 };

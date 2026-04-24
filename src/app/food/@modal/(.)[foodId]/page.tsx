@@ -1,21 +1,13 @@
-import { getDetail,getFoods } from "@/libs/client";
-import RatingStars from "@/src/components/RatingStars/RatingStars";
 import Image from "next/image";
 import { BookOpen, Pencil, Trash2 } from "lucide-react";
+import { getDetail } from "@/libs/client";
+import RatingStars from "@/src/components/RatingStars/RatingStars";
+import ModalCloseButton from "@/src/components/ModalCloseButton/ModalCloseButton";
 import { formatDate } from "@/src/libs/formatDate";
 import styles from "./page.module.scss";
+import ModalOverlay from "@/src/components/ModalOverlay/ModalOverlay";
 
-export async function generateStaticParams(){
-  const { contents } = await getFoods();
-
-  return contents.map((food)=>{
-    return {
-      foodId: food.id,
-    };
-  });
-}
-
-export default async function StaticDetailPage({
+export default async function FoodModal({
   params,
 }: {
   params: Promise<{ foodId: string }>;
@@ -23,8 +15,11 @@ export default async function StaticDetailPage({
   const { foodId } = await params;
   const food = await getDetail(foodId);
 
-  return(
-    <div className={styles.layout}>
+  return (
+    <ModalOverlay>
+      <div className={styles.closeButton}>
+        <ModalCloseButton />
+      </div>
       {/* 左：写真 */}
       <div className={styles.imageArea}>
         <Image
@@ -36,7 +31,6 @@ export default async function StaticDetailPage({
       </div>
       {/* 右：詳細 */}
       <div className={styles.detail}>
-        {/* ヘッダー */}
         <div className={styles.detailHeader}>
           <div className={styles.headerRow}>
             <span className={styles.badge}>{food.type}</span>
@@ -48,7 +42,7 @@ export default async function StaticDetailPage({
         {/* 場所・評価 */}
         <div className={styles.infoRow}>
           <span className={styles.label}>場所</span>
-          <span>{food.location ?? " - "}</span>
+          <span>{food.location ?? "ー"}</span>
         </div>
         <div className={styles.infoRow}>
           <span className={styles.label}>評価</span>
@@ -64,7 +58,10 @@ export default async function StaticDetailPage({
               <BookOpen size={16} />
               レシピ
             </p>
-            <div className={styles.recipeContent} dangerouslySetInnerHTML={{ __html: food.recipe }} />
+            <div
+              className={styles.recipeContent}
+              dangerouslySetInnerHTML={{ __html: food.recipe }}
+            />
           </div>
         )}
         <hr className={styles.divider} />
@@ -72,21 +69,21 @@ export default async function StaticDetailPage({
         <div className={styles.footer}>
           <div className={styles.tags}>
             {food.tags?.map((tag) => (
-              <span key={tag.tag} className={styles.tag}># {tag.tag}</span>
+              <span key={tag.tag} className={styles.tag}>#{tag.tag}</span>
             ))}
           </div>
           <div className={styles.actions}>
             <button className={styles.editButton}>
-              <Pencil size={16} />
+              <Pencil size={14} />
               編集
             </button>
             <button className={styles.deleteButton}>
-              <Trash2 size={16} />
+              <Trash2 size={14} />
               削除
             </button>
           </div>
         </div>
       </div>
-    </div>
-  )
+    </ModalOverlay>
+  );
 }

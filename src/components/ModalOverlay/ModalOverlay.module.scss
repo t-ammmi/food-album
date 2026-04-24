@@ -1,0 +1,28 @@
+@use "../../styles/variables" as *;
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-md;
+}
+
+.modal {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 900px;
+  max-height: 90vh;
+  background-color: $color-card-bg;
+  border-radius: $border-radius-md;
+  overflow: hidden;
+
+  @media (min-width: $breakpoint-tablet) {
+    flex-direction: row;
+  }
+}
