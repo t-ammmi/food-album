@@ -60,6 +60,10 @@
     font-size: $font-size-base;
     font-family: inherit;
     cursor: pointer;
+
+    &:hover {
+        background-color: rgb(26 26 26 / 0.8);
+    }
 }
 
 // フィルタータブ
