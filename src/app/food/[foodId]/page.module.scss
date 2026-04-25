@@ -9,7 +9,7 @@
 .imageArea {
     position: relative;
     width: 100%;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 4 / 2;
 }
 
 .image {
@@ -133,11 +133,13 @@
 @media (min-width: $breakpoint-tablet) {
     .layout {
         flex-direction: row;
-        height: 100vh;
         overflow: hidden;
+        min-height: auto;
+        height: calc(100vh - $header-height-tablet);
     }
 
     .imageArea {
+        aspect-ratio: 4 / 3;
         width: 50%;
         height: 100%;
         aspect-ratio: unset;
