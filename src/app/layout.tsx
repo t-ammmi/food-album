@@ -2,11 +2,14 @@ import type { Metadata } from "next";
 import { Noto_Serif_JP } from "next/font/google";
 import "./globals.scss";
 import Header from "../components/Header/Header";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const notoSerifJP = Noto_Serif_JP({
   subsets: ["latin"],
   weight: ["400", "700"],
   variable: "--font-noto-serif-jp",
+  display: "swap",
+  preload: false,
 });
 
 export const metadata: Metadata = {
@@ -20,14 +23,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="ja"
-      className={`${notoSerifJP.variable} h-full antialiased`}
-    >
-      <body>
-        <Header />
-        {children}
-      </body>
-    </html>
+    <ClerkProvider>
+      <html
+        lang="ja"
+        className={`${notoSerifJP.variable} h-full antialiased`}
+      >
+        <body suppressHydrationWarning>
+          <Header />
+          {children}
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

@@ -48,6 +48,13 @@
     }
 }
 
+.authArea {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    flex-shrink: 0;
+}
+
 .recordButton {
     display: flex;
     align-items: center;
