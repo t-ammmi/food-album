@@ -23,10 +23,10 @@ export default async function Header() {
                 <div className={styles.authArea}>
                     {isLoggedIn ? (
                         <>
-                            <Link href="/food/new" className={styles.recordButton}>
+                            <a href="/food/new" className={styles.recordButton}>
                                 <Plus size={20} />
                                 記録する
-                            </Link>
+                            </a>
                             <UserButton />
                         </>
                     ) : (

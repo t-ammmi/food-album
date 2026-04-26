@@ -3,6 +3,7 @@ import { Noto_Serif_JP } from "next/font/google";
 import "./globals.scss";
 import Header from "../components/Header/Header";
 import { ClerkProvider } from "@clerk/nextjs";
+import HeaderWrapper from "../components/Header/HeaderWrapper";
 
 const notoSerifJP = Noto_Serif_JP({
   subsets: ["latin"],
@@ -29,7 +30,9 @@ export default function RootLayout({
         className={`${notoSerifJP.variable} h-full antialiased`}
       >
         <body suppressHydrationWarning>
-          <Header />
+          <HeaderWrapper>
+            <Header />
+          </HeaderWrapper>
           {children}
         </body>
       </html>

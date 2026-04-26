@@ -1,0 +1,290 @@
+@use "../../styles/variables" as *;
+
+.container {
+  min-height: 100vh;
+  background-color: $color-bg;
+}
+
+// ── ヘッダー ──────────────────────────
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacing-md;
+  background-color: $color-card-bg;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-size: $font-size-sm;
+  color: $color-text-sub;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.title {
+  font-size: $font-size-md;
+  font-weight: bold;
+  color: $color-text-main;
+}
+
+.saveButton {
+  font-size: $font-size-sm;
+  font-weight: bold;
+  color: $color-card-bg;
+  background-color: $color-text-main;
+  border: none;
+  border-radius: $border-radius-sm;
+  padding: 6px 14px;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid $color-border;
+  margin: 0;
+}
+
+// ── ボディ ────────────────────────────
+.body {
+  padding: $spacing-md;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+// ── 写真アップロード ──────────────────
+.imageUpload {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-sm;
+  height: 200px;
+  border: 2px dashed $color-border;
+  border-radius: $border-radius-md;
+  background-color: $color-card-bg;
+  color: $color-text-sub;
+  font-size: $font-size-base;
+  cursor: pointer;
+
+  &:hover {
+    border-color: $color-text-sub;
+  }
+}
+
+.cameraIcon {
+  color: $color-border;
+}
+
+.fileInput {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+// ── ラベル ────────────────────────────
+.label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: $font-size-sm;
+  color: $color-text-sub;
+  font-weight: bold;
+}
+
+// ── 入力フィールド共通 ────────────────
+.titleInput,
+.Input {
+  width: 100%;
+  padding: 10px $spacing-md;
+  font-size: $font-size-base;
+  color: $color-text-main;
+  background-color: $color-card-bg;
+  border: 1px solid $color-border;
+  border-radius: $border-radius-sm;
+  outline: none;
+  font-family: inherit;
+  box-sizing: border-box;
+
+  &:focus {
+    border-color: $color-text-main;
+  }
+}
+
+.titleInput {
+  font-size: $font-size-md;
+}
+
+// ── 場所（アイコン付き）──────────────
+.inputWithIcon {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: 10px $spacing-md;
+  background-color: $color-card-bg;
+  border: 1px solid $color-border;
+  border-radius: $border-radius-sm;
+  color: $color-text-sub;
+
+  &:focus-within {
+    border-color: $color-text-main;
+  }
+
+  .Input {
+    border: none;
+    padding: 0;
+    flex: 1;
+
+    &:focus {
+      border: none;
+    }
+  }
+}
+
+// ── 種別ボタン ────────────────────────
+.typeButtons {
+  display: flex;
+  gap: $spacing-sm;
+}
+
+.typeButton {
+  flex: 1;
+  padding: 10px;
+  font-size: $font-size-base;
+  font-family: inherit;
+  color: $color-text-sub;
+  background-color: $color-card-bg;
+  border: 1px solid $color-border;
+  border-radius: $border-radius-sm;
+  cursor: pointer;
+
+  &.active {
+    color: $color-text-main;
+    border-color: $color-text-main;
+    font-weight: bold;
+  }
+}
+
+// ── 評価（星）────────────────────────
+.ratingInput {
+  display: flex;
+  gap: 4px;
+}
+
+.starButton {
+  font-size: 28px;
+  color: $color-border;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+
+  &.active {
+    color: $color-star;
+  }
+}
+
+// ── テキストエリア ────────────────────
+.textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 10px $spacing-md;
+  font-size: $font-size-base;
+  color: $color-text-main;
+  background-color: $color-card-bg;
+  border: 1px solid $color-border;
+  border-radius: $border-radius-sm;
+  outline: none;
+  font-family: inherit;
+  resize: vertical;
+  box-sizing: border-box;
+  line-height: 1.6;
+
+  &:focus {
+    border-color: $color-text-main;
+  }
+}
+
+// ── タグ ──────────────────────────────
+.tagList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+  align-items: center;
+}
+
+.tag {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  font-size: $font-size-sm;
+  color: $color-text-main;
+  border: 1px solid $color-text-main;
+  border-radius: 999px;
+  background-color: $color-card-bg;
+}
+
+.removeTagButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: $color-text-sub;
+  font-size: $font-size-base;
+  line-height: 1;
+  padding: 0;
+
+  &:hover {
+    color: $color-text-main;
+  }
+}
+
+.tagAddButton {
+  padding: 4px 12px;
+  font-size: $font-size-sm;
+  font-family: inherit;
+  color: $color-text-sub;
+  background: none;
+  border: 1px dashed $color-border;
+  border-radius: 999px;
+  cursor: pointer;
+
+  &:hover {
+    border-color: $color-text-sub;
+    color: $color-text-main;
+  }
+}
+
+.tagInput {
+  padding: 4px 10px;
+  font-size: $font-size-sm;
+  font-family: inherit;
+  color: $color-text-main;
+  border: 1px solid $color-text-main;
+  border-radius: 999px;
+  outline: none;
+  width: 80px;
+}

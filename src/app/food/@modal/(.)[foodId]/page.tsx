@@ -13,6 +13,7 @@ export default async function FoodModal({
   params: Promise<{ foodId: string }>;
 }) {
   const { foodId } = await params;
+  if (foodId === "new") return null;
   const food = await getDetail(foodId);
 
   return (
