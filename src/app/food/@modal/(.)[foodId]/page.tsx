@@ -74,10 +74,10 @@ export default async function FoodModal({
             ))}
           </div>
           <div className={styles.actions}>
-            <button className={styles.editButton}>
+            <a href={`/food/${food.id}/edit`} className={styles.editButton}>
               <Pencil size={14} />
               編集
-            </button>
+            </a>
             <button className={styles.deleteButton}>
               <Trash2 size={14} />
               削除

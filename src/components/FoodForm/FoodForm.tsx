@@ -5,21 +5,23 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Camera, MapPin, BookOpen, ChevronLeft } from "lucide-react";
 import styles from "./FoodForm.module.scss";
-import type { FoodType } from "@/src/types/food";
+import type { FoodType, Food } from "@/src/types/food";
 import { createFood } from "@/src/actions/createFood";
+import { updateFood } from "@/src/actions/updateFood";
 
 type Props = {
   mode: "create" | "edit";
+  defaultValues?: Food;
 };
 
-export default function FoodForm({ mode }: Props) {
+export default function FoodForm({ mode, defaultValues }: Props) {
   const router = useRouter();
   // 自炊 or 外食
-  const [type, setType] = useState<FoodType>("自炊");
+  const [type, setType] = useState<FoodType>(defaultValues?.type[0] ?? "自炊");
   // 評価（1〜5）
-  const [rating, setRating] = useState(5);
+  const [rating, setRating] = useState(defaultValues?.rating ?? 5);
   // タグの入力管理
-  const [tags, setTags] = useState<string[]>([]);
+  const [tags, setTags] = useState<string[]>(defaultValues?.tags?.map((t) => t.tag) ?? []);
   const [tagInput, setTagInput] = useState("");
   const [tagInputVisible, setTagInputVisible] = useState(false);
 
@@ -39,7 +41,7 @@ export default function FoodForm({ mode }: Props) {
   }
 
   // 写真プレビュー
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(defaultValues?.photo?.url ?? null);
   const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -54,7 +56,13 @@ export default function FoodForm({ mode }: Props) {
     formData.set("type", type);
     formData.set("rating", String(rating));
     tags.forEach(tag => formData.append("tags", tag));
-    await createFood(formData);
+    if (mode === "edit" && defaultValues) {
+      // 編集の場合はupdateFoodを呼び出す
+      await updateFood(defaultValues.id, formData);
+    } else {
+      // 新規作成の場合はcreateFoodを呼び出す
+      await createFood(formData);
+    }
   }
 
   return (
@@ -92,7 +100,7 @@ export default function FoodForm({ mode }: Props) {
         {/* 料理名 */}
         <div className={styles.section}>
           <label className={styles.label}>料理名</label>
-          <input type="text" name="title" className={styles.titleInput} />
+          <input type="text" name="title" defaultValue={defaultValues?.title} className={styles.titleInput} />
         </div>
         {/* 種別 */}
         <div className={styles.section}>
@@ -115,14 +123,14 @@ export default function FoodForm({ mode }: Props) {
         {/* 日付 */}
         <div className={styles.section}>
           <label className={styles.label}>日付</label>
-          <input type="date" name="date" className={styles.Input} />
+          <input type="date" name="date" defaultValue={defaultValues?.date?.slice(0, 10)} className={styles.Input} />
         </div>
         {/* 場所 */}
         <div className={styles.section}>
           <label className={styles.label}>場所</label>
           <div className={styles.inputWithIcon}>
             <MapPin size={16} />
-            <input type="text" name="location" className={styles.Input} />
+            <input type="text" name="location" defaultValue={defaultValues?.location} className={styles.Input} />
           </div>
         </div>
         {/* 評価 */}
@@ -143,7 +151,7 @@ export default function FoodForm({ mode }: Props) {
         {/* 感想 */}
         <div className={styles.section}>
           <label className={styles.label}>感想・思い出</label>
-          <textarea name="review" className={styles.textarea}></textarea>
+          <textarea name="review" defaultValue={defaultValues?.review} className={styles.textarea}></textarea>
         </div>
         {/* レシピ */}
         {type === "自炊" && (
@@ -152,7 +160,7 @@ export default function FoodForm({ mode }: Props) {
               <BookOpen size={14} />
               レシピ
             </label>
-            <textarea name="recipe" className={styles.textarea}></textarea>
+            <textarea name="recipe" defaultValue={defaultValues?.recipe?.replace(/<\/p>/g, "\n").replace(/<p>/g, "").replace(/<br>/g, "").trim()} className={styles.textarea}></textarea>
           </div>
         )}
         {/* タグ */}

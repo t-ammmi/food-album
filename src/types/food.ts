@@ -23,7 +23,7 @@ export type Food = {
   revisedAt: string;
   title: string;
   photo: MicroCMSImage;
-  type: FoodType;
+  type: FoodType[];
   date: string;
   location?: string;
   rating: number;

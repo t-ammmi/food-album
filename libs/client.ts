@@ -27,6 +27,7 @@ export const getDetail = async (contentId: string) => {
     const food = await client.getListDetail<Food>({
         endpoint: "food",
         contentId,
+        customRequestInit: { cache: "no-store" },
     });
     return food;
 };

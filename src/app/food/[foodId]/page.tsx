@@ -76,10 +76,10 @@ export default async function StaticDetailPage({
             ))}
           </div>
           <div className={styles.actions}>
-            <button className={styles.editButton}>
+            <a href={`/food/${food.id}/edit`} className={styles.editButton}>
               <Pencil size={16} />
               編集
-            </button>
+            </a>
             <button className={styles.deleteButton}>
               <Trash2 size={16} />
               削除
