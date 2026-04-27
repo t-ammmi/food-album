@@ -91,10 +91,19 @@
   &:hover {
     border-color: $color-text-sub;
   }
+
+  @media (min-width: $breakpoint-tablet) {
+    height: 300px;
+  }
 }
 
 .cameraIcon {
   color: $color-border;
+}
+
+.previewImage {
+  object-fit: cover;
+  border-radius: $border-radius-md;
 }
 
 .fileInput {

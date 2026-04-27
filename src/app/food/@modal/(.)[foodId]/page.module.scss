@@ -79,6 +79,10 @@
   color: $color-text-sub;
 }
 
+.review {
+  white-space: pre-wrap;
+}
+
 .recipeTitle {
   display: flex;
   align-items: center;

@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Camera, MapPin, BookOpen, ChevronLeft } from "lucide-react";
 import styles from "./FoodForm.module.scss";
 import type { FoodType } from "@/src/types/food";
+import { createFood } from "@/src/actions/createFood";
 
 type Props = {
   mode: "create" | "edit";
@@ -36,8 +38,27 @@ export default function FoodForm({ mode }: Props) {
     setTags(tags.filter(t => t !== tag));
   }
 
+  // 写真プレビュー
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setPreviewUrl(URL.createObjectURL(file));
+    }
+  }
+
+  // フォーム送信
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    formData.set("type", type);
+    formData.set("rating", String(rating));
+    tags.forEach(tag => formData.append("tags", tag));
+    await createFood(formData);
+  }
+
   return (
-    <div className={styles.container}>
+    <form onSubmit={handleSubmit} className={styles.container}>
       {/* ヘッダー */}
       <div className={styles.header}>
         <button className={styles.backButton} onClick={() => router.push("/food")}>
@@ -57,15 +78,21 @@ export default function FoodForm({ mode }: Props) {
         {/* 写真 */}
         <div className={styles.section}>
           <div className={styles.imageUpload}>
-            <Camera size={32} className={styles.cameraIcon} />
-            <span>写真を追加</span>
-            <input type="file" accept="image/*" className={styles.fileInput} />
+            {previewUrl ? (
+              <Image src={previewUrl} alt="プレビュー" fill className={styles.previewImage} />
+            ) : (
+              <>
+                <Camera size={32} className={styles.cameraIcon} />
+                <span>写真を追加</span>
+              </>
+            )}
+            <input type="file" name="photo" accept="image/*" className={styles.fileInput} onChange={handlePhotoChange} />
           </div>
         </div>
         {/* 料理名 */}
         <div className={styles.section}>
           <label className={styles.label}>料理名</label>
-          <input type="text" className={styles.titleInput} />
+          <input type="text" name="title" className={styles.titleInput} />
         </div>
         {/* 種別 */}
         <div className={styles.section}>
@@ -88,14 +115,14 @@ export default function FoodForm({ mode }: Props) {
         {/* 日付 */}
         <div className={styles.section}>
           <label className={styles.label}>日付</label>
-          <input type="date" className={styles.Input} />
+          <input type="date" name="date" className={styles.Input} />
         </div>
         {/* 場所 */}
         <div className={styles.section}>
           <label className={styles.label}>場所</label>
           <div className={styles.inputWithIcon}>
             <MapPin size={16} />
-            <input type="text" className={styles.Input} />
+            <input type="text" name="location" className={styles.Input} />
           </div>
         </div>
         {/* 評価 */}
@@ -116,7 +143,7 @@ export default function FoodForm({ mode }: Props) {
         {/* 感想 */}
         <div className={styles.section}>
           <label className={styles.label}>感想・思い出</label>
-          <textarea className={styles.textarea}></textarea>
+          <textarea name="review" className={styles.textarea}></textarea>
         </div>
         {/* レシピ */}
         {type === "自炊" && (
@@ -125,7 +152,7 @@ export default function FoodForm({ mode }: Props) {
               <BookOpen size={14} />
               レシピ
             </label>
-            <textarea className={styles.textarea}></textarea>
+            <textarea name="recipe" className={styles.textarea}></textarea>
           </div>
         )}
         {/* タグ */}
@@ -169,6 +196,6 @@ export default function FoodForm({ mode }: Props) {
           </div>
         </div>
       </div>
-    </div>
+    </form>
   )
 }
