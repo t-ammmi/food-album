@@ -1,9 +1,10 @@
 import { getDetail,getFoods } from "@/libs/client";
 import RatingStars from "@/src/components/RatingStars/RatingStars";
 import Image from "next/image";
-import { BookOpen, Pencil, Trash2 } from "lucide-react";
+import { BookOpen, Pencil } from "lucide-react";
 import { formatDate } from "@/src/libs/formatDate";
 import styles from "./page.module.scss";
+import DeleteButton from "@/src/components/DeleteButton/DeleteButton";
 
 export async function generateStaticParams(){
   const { contents } = await getFoods();
@@ -80,10 +81,7 @@ export default async function StaticDetailPage({
               <Pencil size={16} />
               編集
             </a>
-            <button className={styles.deleteButton}>
-              <Trash2 size={16} />
-              削除
-            </button>
+            <DeleteButton foodId={food.id} />
           </div>
         </div>
       </div>

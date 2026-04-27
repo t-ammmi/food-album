@@ -10,7 +10,6 @@ type Props = {
 }
 
 export default function FoodCard({ food }: Props) {
-    console.log(food);
     return(
         <Link href={`/food/${food.id}`} className={styles.card}>
             <div className={styles.imageWrapper}>

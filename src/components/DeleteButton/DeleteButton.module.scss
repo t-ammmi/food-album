@@ -1,0 +1,17 @@
+@use "../../styles/variables.scss" as *;
+
+.deleteButton {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: none;
+    border: none;
+    font-family: inherit;
+    font-size: $font-size-md;
+    cursor: pointer;
+    color: $color-text-detail;
+
+    &:hover {
+        color: $color-text-main;
+    }
+}

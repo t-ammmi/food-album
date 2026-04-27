@@ -1,11 +1,12 @@
 import Image from "next/image";
-import { BookOpen, Pencil, Trash2 } from "lucide-react";
+import { BookOpen, Pencil } from "lucide-react";
 import { getDetail } from "@/libs/client";
 import RatingStars from "@/src/components/RatingStars/RatingStars";
 import ModalCloseButton from "@/src/components/ModalCloseButton/ModalCloseButton";
 import { formatDate } from "@/src/libs/formatDate";
 import styles from "./page.module.scss";
 import ModalOverlay from "@/src/components/ModalOverlay/ModalOverlay";
+import DeleteButton from "@/src/components/DeleteButton/DeleteButton";
 
 export default async function FoodModal({
   params,
@@ -78,10 +79,7 @@ export default async function FoodModal({
               <Pencil size={14} />
               編集
             </a>
-            <button className={styles.deleteButton}>
-              <Trash2 size={14} />
-              削除
-            </button>
+            <DeleteButton foodId={food.id} />
           </div>
         </div>
       </div>
