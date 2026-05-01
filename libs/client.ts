@@ -15,9 +15,15 @@ export const client = createClient({
 });
 
 // ご飯一覧を取得
-export const getFoods = async () => {
+export const getFoods = async (params?: { type?: string; q?: string }) => {
+    const filters = params?.type ? `type[contains]${params.type}` : undefined;
+
     const foods = await client.getList<Food>({
-    endpoint: "food"
+        endpoint: "food",
+        queries: {
+            filters,
+            q: params?.q || undefined,
+        },
     });
     return foods;
 }

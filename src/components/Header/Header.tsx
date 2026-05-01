@@ -1,8 +1,10 @@
-import { Utensils, Search, Plus } from "lucide-react"
+import { Utensils, Plus } from "lucide-react"
 import styles from "./Header.module.scss"
 import { auth } from "@clerk/nextjs/server"
 import Link from "next/link"
 import { UserButton } from "@clerk/nextjs";
+import FilterNav from "../FilterNav/FilterNav";
+import SearchBox from "../SearchBox/SearchBox";
 
 export default async function Header() {
     // ユーザーのログイン状態を取得
@@ -16,10 +18,7 @@ export default async function Header() {
                     <Utensils size={20} />
                     ごはんアルバム
                 </Link>
-                <div className={styles.searchBox}>
-                    <Search size={20} />
-                    <input type="text" placeholder="ごはんを探す" />
-                </div>
+                    <SearchBox />
                 <div className={styles.authArea}>
                     {isLoggedIn ? (
                         <>
@@ -37,11 +36,7 @@ export default async function Header() {
                     )}
                 </div>
             </div>
-            <nav className={styles.filterNav}>
-                <button className={`${styles.filterButton} ${styles.active}`}>すべて</button>
-                <button className={styles.filterButton}>自炊</button>
-                <button className={styles.filterButton}>外食</button>
-            </nav>
+            <FilterNav />
         </header>
     )
 }

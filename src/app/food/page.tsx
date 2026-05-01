@@ -2,18 +2,27 @@ import { getFoods } from "@/libs/client";
 import FoodCard from "@/src/components/FoodCard/FoodCard";
 import styles from "./page.module.scss";
 
-export default async function FoodListPage() {
-  const { contents } = await getFoods();
+export default async function FoodListPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ type?: string; q?: string }>;
+}) {
+  const { type, q } = await searchParams;
+  const { contents } = await getFoods({ type, q });
 
   return (
     <main className={styles.main}>
-      <ul className={styles.foodList}>
-        {contents.map((food) => (
-          <li key={food.id}>
-            <FoodCard food={food} />
-          </li>
-        ))}
-      </ul>
+      {contents.length === 0 ? (
+        <p className={styles.empty}>ごはんが見つかりませんでした。</p>
+      ) : (
+        <ul className={styles.foodList}>
+          {contents.map((food) => (
+            <li key={food.id}>
+              <FoodCard food={food} />
+            </li>
+          ))}
+        </ul>
+      )}
     </main>
   );
 }

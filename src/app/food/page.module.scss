@@ -8,6 +8,13 @@
     }
 }
 
+.empty {
+    text-align: center;
+    color: $color-text-sub;
+    font-size: $font-size-lg;
+    margin-top: $spacing-xl;
+}
+
 .foodList {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
