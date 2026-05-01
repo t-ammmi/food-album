@@ -5,6 +5,7 @@ import { BookOpen, Pencil } from "lucide-react";
 import { formatDate } from "@/src/libs/formatDate";
 import styles from "./page.module.scss";
 import DeleteButton from "@/src/components/DeleteButton/DeleteButton";
+import { auth } from "@clerk/nextjs/server";
 
 export async function generateStaticParams(){
   const { contents } = await getFoods();
@@ -23,6 +24,8 @@ export default async function StaticDetailPage({
 }) {
   const { foodId } = await params;
   const food = await getDetail(foodId);
+  const { userId } = await auth();
+  const isLoggedIn = !!userId;
 
   return(
     <div className={styles.layout}>
@@ -77,11 +80,15 @@ export default async function StaticDetailPage({
             ))}
           </div>
           <div className={styles.actions}>
-            <a href={`/food/${food.id}/edit`} className={styles.editButton}>
-              <Pencil size={16} />
-              編集
-            </a>
-            <DeleteButton foodId={food.id} />
+            {isLoggedIn && (
+              <>
+                <a href={`/food/${food.id}/edit`} className={styles.editButton}>
+                  <Pencil size={16} />
+                  編集
+                </a>
+                <DeleteButton foodId={food.id} />
+              </>
+            )}
           </div>
         </div>
       </div>

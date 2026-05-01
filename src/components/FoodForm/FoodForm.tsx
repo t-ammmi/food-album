@@ -24,6 +24,8 @@ export default function FoodForm({ mode, defaultValues }: Props) {
   const [tags, setTags] = useState<string[]>(defaultValues?.tags?.map((t) => t.tag) ?? []);
   const [tagInput, setTagInput] = useState("");
   const [tagInputVisible, setTagInputVisible] = useState(false);
+  // バリデーションエラー
+  const [error, setError] = useState<{ [key: string]: string }>({});
 
   // タグ追加
   const addTag = () => {
@@ -52,6 +54,20 @@ export default function FoodForm({ mode, defaultValues }: Props) {
   // フォーム送信
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    // バリデーション
+    const title = (e.currentTarget.elements.namedItem("title") as HTMLInputElement).value;
+    const date = (e.currentTarget.elements.namedItem("date") as HTMLInputElement).value;
+
+    const newErrors: { [key: string]: string } = {};
+    if (!title.trim()) newErrors.title = "料理名を入力してください";
+    if (!date) newErrors.date = "日付を入力してください";
+    if (!previewUrl) newErrors.photo = "写真を追加してください";
+    // 種別・評価はデフォルト値があるので常に有効
+    if (Object.keys(newErrors).length > 0) {
+      setError(newErrors);
+      return;
+    }
+    setError({});
     const formData = new FormData(e.currentTarget);
     formData.set("type", type);
     formData.set("rating", String(rating));
@@ -96,11 +112,13 @@ export default function FoodForm({ mode, defaultValues }: Props) {
             )}
             <input type="file" name="photo" accept="image/*" className={styles.fileInput} onChange={handlePhotoChange} />
           </div>
+          {error.photo && <p className={styles.error}>{error.photo}</p>}
         </div>
         {/* 料理名 */}
         <div className={styles.section}>
           <label className={styles.label}>料理名</label>
           <input type="text" name="title" defaultValue={defaultValues?.title} className={styles.titleInput} />
+          {error.title && <p className={styles.error}>{error.title}</p>}
         </div>
         {/* 種別 */}
         <div className={styles.section}>
@@ -124,6 +142,7 @@ export default function FoodForm({ mode, defaultValues }: Props) {
         <div className={styles.section}>
           <label className={styles.label}>日付</label>
           <input type="date" name="date" defaultValue={defaultValues?.date?.slice(0, 10)} className={styles.Input} />
+          {error.date && <p className={styles.error}>{error.date}</p>}
         </div>
         {/* 場所 */}
         <div className={styles.section}>

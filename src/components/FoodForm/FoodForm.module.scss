@@ -297,3 +297,10 @@
   outline: none;
   width: 80px;
 }
+
+// ── バリデーションエラー ──────────────────────────────
+.error {
+  color: #e53e3e;
+  font-size: 0.75rem;
+  margin-top: 4px;
+}

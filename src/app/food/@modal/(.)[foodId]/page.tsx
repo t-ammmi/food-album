@@ -7,6 +7,7 @@ import { formatDate } from "@/src/libs/formatDate";
 import styles from "./page.module.scss";
 import ModalOverlay from "@/src/components/ModalOverlay/ModalOverlay";
 import DeleteButton from "@/src/components/DeleteButton/DeleteButton";
+import { auth } from "@clerk/nextjs/server";
 
 export default async function FoodModal({
   params,
@@ -16,6 +17,8 @@ export default async function FoodModal({
   const { foodId } = await params;
   if (foodId === "new") return null;
   const food = await getDetail(foodId);
+  const { userId } = await auth();
+  const isLoggedIn = !!userId;
 
   return (
     <ModalOverlay>
@@ -75,11 +78,15 @@ export default async function FoodModal({
             ))}
           </div>
           <div className={styles.actions}>
-            <a href={`/food/${food.id}/edit`} className={styles.editButton}>
-              <Pencil size={14} />
-              編集
-            </a>
-            <DeleteButton foodId={food.id} />
+            {isLoggedIn && (
+              <>
+                <a href={`/food/${food.id}/edit`} className={styles.editButton}>
+                  <Pencil size={14} />
+                  編集
+                </a>
+                <DeleteButton foodId={food.id} />
+              </>
+            )}
           </div>
         </div>
       </div>
