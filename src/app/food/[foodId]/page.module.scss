@@ -67,6 +67,7 @@
 
 .review {
     white-space: pre-wrap;
+    overflow-wrap: break-word;
 }
 
 .recipeTitle {
@@ -78,6 +79,8 @@
 }
 
 .recipeContent {
+    overflow-wrap: break-word;
+
     ol, ul {
         padding-left: $spacing-md;
         margin-bottom: 2px;
