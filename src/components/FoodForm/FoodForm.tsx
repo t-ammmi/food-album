@@ -26,6 +26,8 @@ export default function FoodForm({ mode, defaultValues }: Props) {
   const [tagInputVisible, setTagInputVisible] = useState(false);
   // バリデーションエラー
   const [error, setError] = useState<{ [key: string]: string }>({});
+  // ローディング
+  const [isLoading, setIsLoading] = useState(false);
 
   // タグ追加
   const addTag = () => {
@@ -68,6 +70,7 @@ export default function FoodForm({ mode, defaultValues }: Props) {
       return;
     }
     setError({});
+    setIsLoading(true);
     const formData = new FormData(e.currentTarget);
     formData.set("type", type);
     formData.set("rating", String(rating));
@@ -75,9 +78,11 @@ export default function FoodForm({ mode, defaultValues }: Props) {
     if (mode === "edit" && defaultValues) {
       // 編集の場合はupdateFoodを呼び出す
       await updateFood(defaultValues.id, formData);
+      window.location.href = `/food/${defaultValues.id}`;
     } else {
       // 新規作成の場合はcreateFoodを呼び出す
       await createFood(formData);
+      window.location.href = "/food";
     }
   }
 
@@ -92,8 +97,8 @@ export default function FoodForm({ mode, defaultValues }: Props) {
         <h1 className={styles.title}>
           {mode === "create" ? "新しいごはん" : "ごはんを編集"}
         </h1>
-        <button className={styles.saveButton} type="submit">
-          保存
+        <button className={styles.saveButton} type="submit" disabled={isLoading}>
+          {isLoading ? "保存中..." : "保存"}
         </button>
       </div>
       <hr className={styles.divider} />

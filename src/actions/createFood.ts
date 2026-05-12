@@ -1,6 +1,5 @@
 "use server";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 
 export async function createFood(formData: FormData) {
   const title = formData.get("title") as string;
@@ -68,6 +67,5 @@ export async function createFood(formData: FormData) {
     throw new Error(`ごはんの登録に失敗しました: ${res.status} ${errorText}`);
   }
 
-  revalidatePath("/food");
-  redirect("/food");
+  revalidatePath("/food", "page");
 }

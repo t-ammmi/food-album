@@ -1,7 +1,6 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 
 export async function updateFood(contentId: string, formData: FormData) {
   const title = formData.get("title") as string;
@@ -65,7 +64,6 @@ export async function updateFood(contentId: string, formData: FormData) {
     throw new Error(`更新に失敗しました: ${res.status} ${errorText}`);
   }
 
-  revalidatePath("/food", "layout");
-  revalidatePath(`/food/${contentId}`, "layout");
-  redirect(`/food/${contentId}`);
+  revalidatePath("/food", "page");
+  revalidatePath(`/food/${contentId}`, "page");
 }
